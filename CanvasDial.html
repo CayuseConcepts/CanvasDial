@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>Creating Attractive and Functional HTML5 Canvas Gauges with CanvasDial.js</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="Canvas,HTML5,Gauge,Gauges,Dial,Web App,JavaScript">
+<meta name="description" content="Easily create and display dynamic HTML5 canvas gauges and dials with the Javascript class CanvasDial.js">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<style>
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
+ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center,
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody,
+tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure,
+figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, img, menu, nav, p, section, canvas {
+	display: block;
+}
+
+body {
+	line-height: 1;
+	font-size: 100%;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+img {
+	width: 100%;
+}
+
+ol, ul {
+	margin: 0 4.5em;
+	padding-bottom: 0.5em;
+	line-height: 1.1em;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after {
+	content: '';
+	content: none;
+}
+
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+.container {
+	margin: 1em;
+	padding: 1em;
+	border-radius: 1em;
+	background-color: #eef1f4;
+}
+
+h1 {
+	font-size: 1.8em;
+	text-align: center;
+	padding: 0.5em 0 0 0;
+}
+
+h1.subtitle {
+	font-size: 1.7em;
+}
+
+h2 {
+	font-size: 1.6em;
+	padding: 0.5em 0;
+}
+
+h3 {
+	margin: 0 0.5em;
+	font-size: 1.4em;
+	padding: 0.5em 0;
+}
+
+p {
+	margin: 0 2em;
+	padding-bottom: 0.5em;
+	line-height: 1.1em;
+	font-size: 1.1em;
+}
+
+a {
+	color: #225;
+}
+code {
+	display: block;
+	background-color: #c5cccf;
+	font-family: courier, fixed;
+	margin: 0.5em 2em;
+	padding: 0.2em 1em;
+	font-size: 0.9em;
+	border-radius: .5em;
+}
+
+.triplets {
+	width: 33%; 
+	float: left;
+}
+
+.extraMargins {
+	margin: 1em 0;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.position_stack {
+	display: none;
+}
+.position_side {
+	display: inline;
+}
+.small_right {
+	float: right;
+	margin: 0 2em;
+	width: 150px;
+	height: 150px;
+}
+
+@media screen and (max-width: 420px) {
+	.small_right {
+		float: none;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	code {
+		word-wrap:break-word;
+		margin: 0.5em 0;
+	}
+	.triplets {
+		float: none;
+		width: 100%;
+	}
+	.position_stack {
+		display: inline;
+	}
+	.position_side {
+		display: none;
+	}
+}
+
+</style>
+</head>
+<body>
+
+<article class="container" id="container">
+
+<h1>Creating Attractive and Functional HTML5 Canvas Gauges</h1>
+<h1 class="subtitle">A Guide to Using DialCanvas.js</h1>
+
+	<h2>Introduction</h2>
+	
+	<img src="images/smallGauge.png" width="150" height="150" class="small_right">
+
+	<p>With the proliferation of smartphones and tablets running native apps containing beautiful and dynamic graphics, 
+	and the rapid adoption of HTML5 in mainstream Web browsers, expectations from users are high.  Mediocre Web pages 
+	and Web apps have no hope of competing against native apps with a user population that doesn't know or care why&mdash;
+	they will prefer and use what works, what is easy to view, and what conveys information in the best manner possible.</p>
+
+	<p>The subject of user interaction with design, color, graphics, and interfaces is vast, and
+	the ongoing debate over native apps vs. Web apps will not be resolved anytime soon.  What <span class="italic">is</span> 
+	clear is that there is a need to present dynamic, coloful, and high-quality data visulization graphics within any
+	Web browser on any operating system without requiring an extra plugin.  That's a pretty tall order, 
+	and comprises a wide-ranging domain, so this Javascript class is focused narrowly on the creation of dynamic circular 
+	dials and gauges.</p>
+
+	<h2>Motivation</h2>
+	<p>The HTML5 Canvas has been around for over six years at the time of this writing, but the initally slow adoption by
+	the leading browser, and the fact that the programatic creation of canvas graphics is non-trivial has slowed the
+	appearance of such graphics.  All modern browsers now support the HTML5 Canvas, so the only remaining speedbump is
+	the difficulty of creating complex drawings.</p>
+
+	<p>This Javascript "class" attempts to make it easy to produce attractive HTML5 canvas dials and circular gauges,
+	abstracting some of the gory details such as the mathematics of arcs, polor coordinates, relative widths and
+	heights, and placement and rotation of all the various elements. In doing so, it by necessity eliminates some
+	freedom, but gains consistency, repeatablilty, and ease of use.</p>
+
+	<p><span class="italic">CanvasDial.js</span> allows the Web developer to create a dial or gauge representing any unit of measure,
+	with any range of values, with complete control over all visual elements, while removing the tedium of the
+	canvas details.</span></p>
+
+	<h2>How To Use</h2>
+	<p>As with any Javascript code, it needs to be referenced in the page by a script element:
+	<code>&lt;script src=&quot;<span class="italic">path-to-javascript-directory/</span>CanvasDial.js&quot;&gt;&lt;/script&gt;</code>
+	The code does not require jQuery, although it plays nicely with jQuery, and should not interfere with any other namespaces or programs.</p>
+	<p>In the HTML code, a <span class="italic">&lt;canvas&gt;</span> element needs to appear with an <span class="italic">id</span>
+	attribute as the only requried element:
+	<code>&lt;canvas id=&quot;temperature&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&lt;/canvas&gt;</code>
+	Here the optional attribute <span class="italic">width</span> is included to
+	limit the size of the canvas. Most canvas implementations default to a width of 300 (usually pixels).
+	</p>
+
+	<p>At this point, the CanvasDial code has been loaded, and a canvas element has been included on the page, but there is no
+	connection or reference to the code from the canvas. Instantiating a <span class="italic">CanvasDial</span> object with the 
+	required parameter <span class="italic">id</span> of the canvas element makes this connection:
+	<code>&lt;script&gt;var tempGauge = new CanvasDial(&quottemperature&quot)&lt;/script&gt;</code>
+	The above code represents the bare minimum required to get a canvas element on the page, and make the connection to the
+	javascript code, but nothing has been drawn yet.
+	</p>
+
+	<h2>Creating the Base Dial</h2>
+	<p><span class="italic">CanvasDial.js</span> allows for three different methods to pass parameter values to the obejct. In most circumstances there is no
+	perceivable performance advantage to any one of the methods. The variety is provided so that the developer can use whichever 
+	method makes the most sense for the application. The three methods are:</p>
+	<ul>
+	<li>Pass the values in specific data- attributes within the canvas element.</li>
+	<li>Pass the values in an key/value object to the <span class="italic">setBaseParameters</span> function.</li>
+	<li>Set individual object attributes.</li>
+	</ul>
+	
+	<p>Therefore, the following methods are all functionally equivalent:
+	<code class="extraMargins">
+	&lt;canvas id=&quot;temperature&quot;
+	data-value="22"
+	data-units="&amp;deg;C"
+	data-sweep="270"
+	data-rotation="135"
+	data-minvalue="-40"
+	data-maxvalue="50"
+	data-tickmarks="9"
+	data-fontfamily="Helvetica, Arial, sans-serif"
+	data-bgcolor="#224"
+	&gt;&lt;/canvas&gt;
+	</code>
+	<code class="extraMargins">
+	&lt;canvas id=&quot;temperature&quot;&gt;&lt;/canvas&gt;<br>
+	&lt;script&gt;<br>
+	var tempGauge = new CanvasDial(&quottemperature&quot);<br>
+	var gaugeParams = {value:22, units:'\xB0'+'C', sweep:270, rotation:135, minvalue:-40, maxvalue:50, tickmarks:9, fontfamily:'Helvetica, Arial, sans-serif', bgcolor:'#224'};<br>
+	tempGauge.setBaseParameters(gaugeParams);<br>
+	&lt;/script&gt;
+	</code>
+	<code class="extraMargins">
+	&lt;canvas id=&quot;temperature&quot;&gt;&lt;/canvas&gt;<br>
+	&lt;script&gt;<br>
+	var tempGauge = new CanvasDial(&quottemperature&quot);<br>
+	tempGauge.value = 22;<br>
+	tempGauge.units = '\xB0'+'C';<br>
+	tempGauge.sweep = 270;<br>
+	tempGauge.rotation = 135;<br>
+	tempGauge.minvalue = -40;<br>
+	tempGauge.maxvalue = 50;<br>
+	tempGauge.tickmarks = 9;<br>
+	tempGauge.fontfamily = 'Helvetica, Arial, sans-serif';<br>
+	tempGauge.bgcolor = '#224';<br>
+	&lt;/script&gt;
+	</code>
+	</p>
+
+	<p>There is an advantage to be gained by using the second method, where an object is defined containing all the gauge parameter: That object variable may be used
+	over and over in other gauges, even if values in the object are modified along the way. Additionally, all base parameters have default values, so a final option 
+	is to simply do nothing and accept the defaults.</p>
+
+	<h2>Drawing the Elements of a Gauge</h2>
+	<p>In the preceding section, an instance of a CanvasDial was created, and connected to a canvas element on the page. However, nothing has been
+	drawn, so nothing will appear on the page without creating the various components of a gauge. Any and all of these are optional, and most can
+	even be created multiple times if needed.  There are six main components available in CanvasDial, including the background or face, the sweep or arc, the tick marks,
+	the numerical scale, the pointer, and the textual value.</p>
+
+	<h3>Dial Background</h3>
+	<p>The simplest component is the background. It is a solid circle the width of the canvas. The color of the background is the given bgcolor, or the default black.
+	Drawing the background is performed by a simple function call with no arguments:
+	<code>tempGauge.drawBackground();</code>
+	The bgcolor given in the instantiation phase can be an rgba color, so the dial face may be transparent. Additionally, if the drawBackground() function is not called,
+	the the guage will have no background, which is the equivalent of a completely transparent background.</p>
+
+	<h3>Arcs, Segments, and Sweeps</h3>
+	<p>An arc is a segment drawn on the face of the dial, which is usually employed to make a range of the gauge stand out, create a complete contasting sweep, 
+	or draw a short segment which highlights a portion of the gauge range. The function with the most freedom, therefore the most options, is 
+	<span class="italic">drawArc</span>. <span class="italic">drawSweep</span> and is a convenience function which draws and arc over the entire range, and also
+	draws the tick marks if they have been defined. <span class="italic">drawSegment</span> simply draws an arc with butt ends, and is meant to create partial
+	arc segments. Here are three code snippets which illustrate the drawing of arcs, a sweep, and a segment: </p>
+	
+	<p><span class="position_side">Left Gauge</span><span class="position_stack">Top Gauge</span>:
+	<code>tempGauge.drawArc({start:-40, stop:0, radiusPercent:85, widthPercent:10, color:'blue', lineCap:'round'});</code>
+	</p>
+
+	<p>Middle Gauge:
+	<code>tempGauge.drawSweep({radiusPercent:85, widthPercent:10, color:'red'});</code>
+	</p>
+
+	<p><span class="position_side">Right Gauge</span><span class="position_stack">Bottom Gauge</span>:
+	<code>tempGauge.drawArc({start:-40, stop:0, radiusPercent:85, widthPercent:10, color:'blue', lineCap:'round'});<br>
+	tempGauge.drawArc({start:30, stop:50, radiusPercent:85, widthPercent:10, color:'red', lineCap:'round'});<br>
+	tempGauge.drawSegment({start:0, stop:30, radiusPercent:85, widthPercent:10, color:'orange'});</code>
+	</p>
+
+	<div class="triplets">
+	<img src="images/arc1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	<div class="triplets">
+	<img src="images/arc2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	<div class="triplets">
+	<img src="images/arc3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	
+	<h3>Tick Marks</h3>
+	<p>If <span class="italic">tickmarks</span> has been defined and the <span class="italic">drawSweep</span> function is
+	called, then tick marks will automatically be drawn on the sweep as seen in the middle example above. However, often more 
+	freedom over the number, size, and placement of tick marks is desired. The <span class="italic">drawTicks</span> 
+	function is provided for just this reason.</p>
+
+	<p>Continuing the example with the furthest right gauge from above, any number of tick marks can be drawn. This example shows main tick marks
+	drawn at every 10 division, smaller ticks drawn at every 5 division, and finally a very small tick drawn at every integer.</p>
+	<code>tempGauge.drawTicks({radiusPercent:92, lengthPercent:8, tickWidth:1, color:'#220'});<br>
+	tempGauge.drawTicks({numTicks:20, radiusPercent:85, lengthPercent:5, tickWidth:1, color:'#220'});<br>
+	tempGauge.drawTicks({numTicks:100, radiusPercent:80, lengthPercent:2, tickWidth:1, color:'#220'});
+	</code>
+
+	<img src="images/tick.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+
+	<p>Note that tick marks spacing is directly proportional to the number of ticks paramater  <span class="italic">numTicks</span>.
+	Tick marks will be evenly distributed across the entire sweep. In the above example, the  <span class="italic">numTicks</span>
+	values of 18 and 90 were chosen so 
+	that tick marks would appear on every 5th number and every single number respectively.  Also note that in the first function
+	call to  <span class="italic">drawTicks</span>, <span class="italic">numTicks</span> was not defined. That is because the
+	main object  <span class="italic">tickmarks</span> had already been set to 9.  In this case, if  <span class="italic">numTicks</span>
+	is not defined, then the object  <span class="italic">tickmarks</span> value will be used.  If neither have been defined, then
+	only a single tick mark at the low range will be drawn, which is probably not what is desired. In general, it is usually best
+	to simply define all desired values to avoid surprises.</p>
+
+	<h3>The Scale</h3>
+	<p>Drawing the scale numbers is mostly automatic. This is <span class="italic">usually</span> a good thing, since 
+	trying to figure out how to space numbers around a dial is not easy. The <span class="italic">drawScale</span> function
+	does all the work. If <span class="italic">numTicks</span> has not been set, then the total range will be divided by
+	10 and the numbers and spacing will follow, regardless of how strange it may appear (if for instance, your total
+	range is something like 73, even though <a href="http://en.wikipedia.org/wiki/73_(number)">73 is the best number</a>, 
+	followed closely by 
+	<a href="http://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Answer_to_the_Ultimate_Question_of_Life.2C_the_Universe.2C_and_Everything_.2842.29">
+	42</a>).
+	</p>
+	<p>This simple fucntion call will draw a scale on the outer edge of the dial:
+	<code>
+	tempGauge.drawScale({radiusPercent:98, fontSizePercent:15, color:'white'});
+	</code>
+	</p>
+
+	<img src="images/scale.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+
+	<p>The available options allow for setting both the position and font size of the numbers, as well as the color of the numbers.</p>
+
+	<h3>Current Value Text</h3>
+	<p>Most often, a textual representation of the current value is helpful to those people who demand to know 
+	<span class="italic">exacty</span> what the value is.  Again, for the most part, the hard work is done in the <span class="italic">
+	drawValue</span> function, with control over colors and whether or not the value is centered on the dial face.</p>
+	<p>If a pointer will not be used, the value should probably be centered. Setting the option <span class="italic">centered</span>
+	to <span class="italic">true</span> will center the text.</p>
+	<p>If the option <span class="italic">centered</span> is omitted or set to <span class="italic">false</span>, the fucntion will
+	automatically figure out the best position for the text, by choosing a space along the edge of the dial not occupied by the sweep, 
+	which will also not be covered by a pointer.</p>
+
+	<p>The gauge on the <span class="position_side">left</span><span class="position_stack">top</span> centers the value. Of course 
+	without a pointer, the scale doesn't make much sense, so in this example, the value is represented by a short segment inside the sweep.</p>
+	<code>tempGauge6.drawSegment({start:21, stop:23, radiusPercent:63, widthPercent: 10, color:'#8ff'});<br>
+	tempGauge.drawValue({centered: true});</code>
+
+	<p>The middle gauge accepts all defaults, and positions the value in the blank area bewteen the sweep.</p>
+	<code>tempGauge.drawValue();</code>
+
+	<p>As an example of automatic positioning, if the gauge rotation is changed before calling the <span class="italic">drawValue</span>
+	function, the position of the value will chage accordingly as shown on the <span class="position_side">right</span><span class="position_stack">bottom gauge</span>.</p>
+	<code>tempGauge.rotation = 0;<br>
+	// ... other drawing functions ... <br>
+	tempGauge.drawValue();</code>
+
+	<div class="triplets">
+	<img src="images/value1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	<div class="triplets">
+	<img src="images/value2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	<div class="triplets">
+	<img src="images/value3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	</div>
+
+	<h3>Pointer</h3>
+	<p>The pointer is the element which visually indicates the value on a gauge. Drawing the pointer is simple
+	by calling the <span class="italic">drawPointer</span> function. At this time there is a single style of
+	pointer, so the only options are the size and color of the pointer, supplied by <span class="italic">
+	radiusPercent</span> and <span class="italic">color</span> respectively.</p>
+	<p>This example sets the length of the pointer to 70% of the radius, uses the default red color, 
+	and will automatically point to the previously given value:
+	<code>
+	tempGauge10.drawPointer({radiusPercent: 70});
+	</code>
+	</p>
+
+	<img src="images/final.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+
+	<p>The pointer value may be any integer or float within the range of the gauge. If a value such as
+	22.3578 were passed to the <span class="italic">drawPointer</span> function, it would happily 
+	position the pointer at that value, although a user would be hard-pressed to discern any difference
+	between that and 22.</p>
+
+	<h2>All together now</h2>
+	<p>That's it then! Simple, yes? From beginning to end, taken all together then, the code required to create the above
+	sample gauge is:
+	<code>
+	&lt;script src=&quot;<span class="italic">path-to-javascript-directory/</span>CanvasDial.js&quot;&gt;&lt;/script&gt;<br>
+	&lt;canvas id=&quot;temperature&quot; width=&quot;200&quot;>&lt;/canvas&gt;<br>
+	&lt;script&gt;<br>
+	var tempGauge = new CanvasDial(&quot;temperature&quot;);<br>
+	var gaugeParams = {value:22, units:'\xB0'+'C', sweep:270, rotation:135, minvalue:-40, maxvalue:50, tickmarks:9, fontfamily:'Helvetica, Arial, sans-serif', bgcolor:'#224'};<br>
+	tempGauge.setBaseParameters(gaugeParams);<br>
+	tempGauge.drawBackground();<br>
+	tempGauge.drawArc({start:-40, stop:0, radiusPercent:85, widthPercent:10, color:'blue', lineCap:'round'});<br>
+	tempGauge.drawArc({start:30, stop:50, radiusPercent:85, widthPercent:10, color:'red', lineCap:'round'});<br>
+	tempGauge.drawSegment({start:0, stop:30, radiusPercent:85, widthPercent:10, color:'orange'});<br>
+	tempGauge.drawTicks({radiusPercent:82, lengthPercent:8, tickWidth:1, color:'#220'});<br>
+	tempGauge.drawTicks({numTicks:18, radiusPercent:75, lengthPercent:5, tickWidth:1, color:'#220'});<br>
+	tempGauge.drawTicks({numTicks:90, radiusPercent:70, lengthPercent:2, tickWidth:1, color:'#220'});<br>
+	tempGauge.drawScale({radiusPercent:98, fontSizePercent:15, color:'white'});<br>
+	tempGauge.drawValue();<br>
+	tempGauge.drawPointer({radiusPercent: 70});<br>
+	&lt;/script&gt;
+	</code>
+	</p>
+
+	<p>It is worthwhile to note that most options are indeed optional, and an error in the specification or
+	value of an option will usually result in that option simply not being used. In the few cases where an
+	option is mandatory (such as a radiusPercent), a failure to supply this option or an error in the value
+	will result in an error message sent to the console, but the rest of the code will not be affected.</p>
+
+	<h2>Changing the Value</h2>
+	<p>In other programming environments, most of the various elements of a gauge would be their own object, or at least 
+	attributes of an object. If this were the case, then updating a value would likely be reflected immediately without the
+	need to redraw the entire gauge. This is not the case with the HTML5 canvas element.</p>
+	<p>The creation and functions of the HTML5 canvas make it appear to be vector-based. However, an HTML5 canvas
+	graphic is rendered as a raster image on the browser, usually as a PNG image.  What this means for changing values
+	is that if the position of the pointer and the text value need to change, a way to do so graphically would involve
+	&quot;erasing&quot; the pixels by painting over them with the background color.  An more reliable and easier
+	way is to simply redraw the entire gauge when the value changes.</p>
+	<p>It is for this reason that there is no function to update or change the value or pointer. Simply redraw the gauge with
+	the new value. For efficiency, create all the elements of a gauge except the value and pointer, and then use the
+	canvas function <span class="italic">save()</span>. Then the <span class="italic">drawValue</span> and 
+	<span class="italic">drawPointer</span> functions can be called. When changing the value, change
+	the value variable, then call the canvas function <span class="italic">restore()</span>, and finally draw the
+	value and pointer.</p>
+
+	<h2>Parameter Options Explained</h2>
+	<h3>Base parameters</h3>
+	<ul>
+	<li>value : The value to display on the dial or gauge.</li>
+	<li>units : The units of measure to display if the text is drawn.</li>
+	<li>sweep : The degrees which the dial will span. Given as an integer from 0-360.</li>
+	<li>rotation : The degrees to which the starting point is rotated.  Given as an integer from 0-360.</li>
+	<li>minvalue : The gauge minimum value. Given as an integer which may be negative.</li>
+	<li>maxvalue : The gauge maximum value. Given as an integer which may be negative.</li>
+	<li>tickmarks : The default number of tick marks to draw on the sweep. Given as a positive integer.</li>
+	<li>fontfamily : The font to be used on gauge text. Given as a string confirming to W3C font-family property.</li>
+	<li>bgcolor : The background color of the dial face. Given as a hex color number, or an rgba list.</li>
+	</ul>
+
+	<h3>Option parameters in class functions</h3>
+	<ul>
+	<li>start : The starting point for an arc or segment, givin as a value within the numerical range of the gauge.</li>
+	<li>stop : The stopping point for an arc or segment, givin as a value within the numerical range of the gauge.</li>
+	<li>radiusPercent : The position of an arc, tick marks, scale numbers, or length of a pointer given as a percentage of the radius, where 0 is center, and 100 is the edge.</li>
+	<li>widthPercent : The width of an arc or segment as a percentage of the total radius.</li>
+	<li>lengthPercent : The length of the tick mark as a percentage of the total radius.</li>
+	<li>fontSizePercent : The size of the numbers font as a percentage of the total radius.</li>
+	<li>numTicks : The number of tick marks to be divided evenly across the sweep.</li>
+	<li>tickWidth: The thickness of the tick mark. 1 is a line, where 5 would be a fat mark.</li>
+	<li>centered : A boolean value that determines whether the value is placed in the dial center.</li>
+	<li>lineCap : The end style of a line. One of "butt", "round", or "square".</li>
+	<li>color, fgcolor, bgcolor : All color values are given as #hex, rgba, or color strings.</li>
+	</ul>
+
+	<h2>A Wide Variety of Styles</h2>
+	<p>A class of this nature by necessity limits the freedom when compared to coding everything from scratch. However, 
+	there is considerable variety still available. For example, any number of arcs of any color, and any width can be drawn.
+	Fonts and their position are as unlimited as in any other browser environment. A single gauge can even have
+	multiple scales if needed.  The possibilites are limitless, and the class is meant to simply make programming
+	easier.</p>
+
+	<h2>Conclusion</h2>
+	<p>Creating impactful and attractive data visualization is not a simple matter, but this CanvasDial.js code attempts
+	to make the task of creating dials and circular gauges a little easier.  While a cirular dial or gauge is sometimes
+	not the best visualization tool, it is one very familiar to most people. HTML5 and the associated Canvas element are
+	here to stay, and can be safely used in all browser environments released in this decade.</p>
+	<p>There are several other dynamic gauge and dial classes and libraries available with various levels of quality, 
+	license terms, and ease-of-use, but <span class="italic">CanvasDial.js</span> attempts to maximize these characteristics.</p>
+	<p>The code can be found on GitHub at: <a href="https://github.com/CayuseConcepts/CanvasDial">github.com/CayuseConcepts/CanvasDial</a></p>
+
+	<h2>Future Development</h2>
+	<p>This code is being released as version 0.9.2. That means it has some known shortcomings before it is ready for an 
+	honest 1.0 release.  It is my intent to improve the code, add features, add more style choices, and make more types of
+	dials and circular gauges possible without adding much to the complexity and weight of the code.</p>
+	<p>Feel free to comment or send me an email with ideas, feature requests, and bug discoveries.</p>
+
+	<h2>About the Author</h2>
+	<p>Scott Erholm is a Freelance Developer with over 18 years experience in many different software engineering and 
+	architecture domains. His passion is data manipulation and visualization from raw collection to user interfaces on
+	Web, iOS and Android platforms.  Scott may be contacted at <a href="mailto:scott@cayu.se">scott@cayu.se</a></p>
+
+</article>
+
+</body>
+</html>
