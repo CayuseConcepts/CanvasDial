@@ -182,11 +182,11 @@ code {
 <article class="container" id="container">
 
 <h1>Creating Attractive and Functional HTML5 Canvas Gauges</h1>
-<h1 class="subtitle">A Guide to Using DialCanvas.js</h1>
+<h1 class="subtitle">A Guide to Using CanvasDial.js</h1>
 
 	<h2>Introduction</h2>
 	
-	<img src="images/smallGauge.png" width="150" height="150" class="small_right">
+	<img src="/images/smallGauge.png" width="150" height="150" class="small_right">
 
 	<p>With the proliferation of smartphones and tablets running native apps containing beautiful and dynamic graphics, 
 	expectations from users are high. At the same time, Web technology is improving rapidly, and the capabilities of Web 
@@ -207,7 +207,7 @@ code {
 	appearance of such graphics.  All modern browsers now support the HTML5 Canvas, so the only remaining speedbump is
 	the difficulty of creating complex drawings.</p>
 
-	<p>This Javascript "class" attempts to make it easy to produce attractive HTML5 canvas dials and circular gauges,
+	<p>This Javascript class attempts to make it easy to produce attractive HTML5 canvas dials and circular gauges,
 	abstracting some of the gory details such as the mathematics of arcs, polar coordinates, relative widths and
 	heights, and placement and rotation of all the various elements. In doing so, it by necessity eliminates some
 	freedom, but gains consistency, repeatability, and ease of use.</p>
@@ -216,7 +216,7 @@ code {
 	with any range of values, with complete control over all visual elements, while removing the tedium of the
 	canvas details.</span></p>
 
-	<h2>How To Use DialCanvas.js</h2>
+	<h2>How To Use CanvasDial.js</h2>
 	<p>As with any Javascript code, it needs to be referenced in the page by a script element:
 	<code>&lt;script src=&quot;<span class="italic">path-to-javascript-directory/</span>CanvasDial.js&quot;&gt;&lt;/script&gt;</code>
 	The code does not require jQuery, although it plays nicely with jQuery, and should not interfere with any other namespaces or programs.</p>
@@ -231,7 +231,7 @@ code {
 	connection or reference to the code from the canvas. Instantiating a <span class="italic">CanvasDial</span> object with the 
 	required parameter <span class="italic">id</span> of the canvas element makes this connection:
 	<code>&lt;script&gt;var tempGauge = new CanvasDial(&quottemperature&quot)&lt;/script&gt;</code>
-	The above code represents the bare minimum required to get a canvas element on the page, and make the connection to the
+	The above code represents the bare minimum required to get a canvas element on the page and make the connection to the
 	javascript code, but nothing has been drawn yet.
 	</p>
 
@@ -284,13 +284,13 @@ code {
 	</code>
 	</p>
 
-	<p>There is an advantage to be gained by using the second method, where an object is defined containing all the gauge parameter: That object variable may be used
+	<p>There is an advantage to be gained by using the second method, where an object is defined containing all the gauge parameter: the object variable may be used
 	over and over in other gauges, even if values in the object are modified along the way.</p>
 
-	<p>Alternatively, all base parameters have default values, so a final option is to simply do nothing and accept the defaults.</p>
+	<p>Alternatively, all base parameters have default values, so a final option is simply to do nothing and accept the defaults.</p>
 
 	<h2>Drawing the Elements of a Gauge</h2>
-	<p>In the preceding section, an instance of a CanvasDial was created, and connected to a canvas element on the page. However, nothing has been
+	<p>In the preceding section, an instance of a CanvasDial was created and connected to a canvas element on the page. However, nothing has been
 	drawn, so nothing will appear on the page without creating the various components of a gauge. Any and all of these components are optional, and most can
 	even be created multiple times if needed.  There are six main components available in CanvasDial, including the background or face, the sweep or arc, the tick marks,
 	the numerical scale, the pointer, and the textual value.</p>
@@ -324,15 +324,15 @@ code {
 	</p>
 
 	<div class="triplets">
-	<img src="images/arc1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/arc1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	<div class="triplets">
-	<img src="images/arc2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/arc2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	<div class="triplets">
-	<img src="images/arc3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/arc3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	
@@ -350,7 +350,7 @@ code {
 	tempGauge.drawTicks({numTicks:100, radiusPercent:80, lengthPercent:2, tickWidth:1, color:'#220'});
 	</code>
 
-	<img src="images/tick.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/tick.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 
 	<p>Note that tick marks spacing is directly proportional to the number of ticks parameter <span class="italic">numTicks</span>.
 	Tick marks will be evenly distributed across the entire sweep. In the above example, the  <span class="italic">numTicks</span>
@@ -378,7 +378,7 @@ code {
 	</code>
 	</p>
 
-	<img src="images/scale.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/scale.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 
 	<p>The available options allow for setting both the position and font size of the numbers, as well as the color of the numbers.</p>
 
@@ -407,15 +407,15 @@ code {
 	tempGauge.drawValue();</code>
 
 	<div class="triplets">
-	<img src="images/value1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/value1.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	<div class="triplets">
-	<img src="images/value2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/value2.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	<div class="triplets">
-	<img src="images/value3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/value3.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 	</div>
 
 	<h3>Pointer</h3>
@@ -430,7 +430,7 @@ code {
 	</code>
 	</p>
 
-	<img src="images/final.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
+	<img src="/images/final.png" width="200" height="200" style="margin: 0 auto; width: 200px; height: 200px;">
 
 	<p>The pointer value may be any integer or float within the range of the gauge. If a value such as
 	22.3578 were passed to the <span class="italic">drawPointer</span> function, it would happily 
@@ -473,7 +473,7 @@ code {
 	<p>The creation and functions of the HTML5 canvas make it appear to be vector-based. However, an HTML5 canvas
 	graphic is rendered as a raster image on the browser, usually as a PNG image.  What this means for changing values
 	is that if the position of the pointer and the text value need to change, a way to do so graphically would involve
-	&quot;erasing&quot; the pixels by painting over them with the background color.  An more reliable and easier
+	&quot;erasing&quot; the pixels by painting over them with the background color.  A more reliable and easier
 	way is to simply redraw the entire gauge when the value changes.</p>
 	<p>It is for this reason that there is no function to update or change the value or pointer. Simply redraw the gauge with
 	the new value. For efficiency, create all the elements of a gauge except the value and pointer, and then use the
@@ -515,7 +515,7 @@ code {
 	<p>A class of this nature by necessity limits the freedom when compared to coding everything from scratch. However, 
 	there is considerable variety still available. For example, any number of arcs of any color, and any width can be drawn.
 	Fonts and their position are as unlimited as in any other browser environment. A single gauge can even have
-	multiple scales if needed.  The possibilities are limitless, and the class is meant to simply make programming
+	multiple scales if needed.  The possibilities are limitless, and the main purpose of he class is to make programming
 	easier.</p>
 
 	<h2>Conclusion</h2>
